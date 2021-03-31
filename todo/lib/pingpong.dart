@@ -11,5 +11,5 @@ void initPingPong() {
 @JS('PingPong.start')
 external void start(int duration);
 
-@JS('JSON.stringify')
-external String start(Object obj);
+// @JS('JSON.stringify')
+// external String start(Object obj);
