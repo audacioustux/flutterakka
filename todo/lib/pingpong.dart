@@ -1,4 +1,4 @@
-@JS()
+@JS('PingPong')
 library pingpong.js;
 
 import 'package:import_js_library/import_js_library.dart';
@@ -8,8 +8,10 @@ void initPingPong() {
     importJsLibrary(url: "./assets/pingpong.js", flutterPluginName: "todo");
 }
 
-@JS('PingPong.start')
-external void start(int duration);
+@JS('ping')
+external ping();
+@JS('pong')
+external pong();
 
 // @JS('JSON.stringify')
 // external String start(Object obj);

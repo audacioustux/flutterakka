@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AudaciousTux - Tanjim Hossain',
+      title: 'AloPoc',
       theme: ThemeData(primarySwatch: Colors.green),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -32,10 +32,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    initPlatformVersion();
   }
 
-  Future<void> initPlatformVersion() async {
+  Future<void> _loadPlatformVersion() async {
     String platformVersion;
 
     try {
@@ -66,6 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _loadPlatformVersion,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
       ),
     );
   }

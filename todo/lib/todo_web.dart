@@ -17,7 +17,6 @@ class TodoWeb {
     );
 
     initPingPong();
-    start(2);
 
     final pluginInstance = TodoWeb();
     channel.setMethodCallHandler(pluginInstance.handleMethodCall);
@@ -36,6 +35,7 @@ class TodoWeb {
   }
 
   Future<String> getPlatformVersion() { 
+    ping();
     final version = html.window.navigator.userAgent;
     return Future.value(version);
   }

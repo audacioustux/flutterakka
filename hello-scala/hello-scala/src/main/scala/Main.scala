@@ -1,46 +1,30 @@
-package org.akkajs
-
 import scala.language.postfixOps
 
 import akka.actor._
-
+import scala.util.Try
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
 
 import com.typesafe.config.ConfigFactory
 
-@JSExportTopLevel("PingPing")
+@JSExportTopLevel("PingPong")
 object PingPong {
+  var system: ActorSystem = ActorSystem("pingpong")
+  val ponger = system.actorOf(ppActor("ping", "pong"))
+  val pinger = system.actorOf(ppActor("pong", "ping"))
+
   def ppActor(matcher: String, answer: String) = Props(
     new Actor {
-      def receive = {
-        case matcher =>
-          sender ! answer
-          println(s"received $matcher sending answer $answer")
+      def receive = { case matcher =>
+        println(s"received $matcher sending answer $answer")
       }
     }
   )
 
   @JSExport
-  def start(duration: Int) = {
-    val system = ActorSystem("pingpong")
-
-    val ponger = system.actorOf(ppActor("ping", "pong"))
-    val pinger = system.actorOf(ppActor("pong", "ping"))
-
-    import system.dispatcher
-    import scala.concurrent.duration._
-    
-    pinger.!("pong")(ponger)
-
-    system.scheduler.scheduleOnce(duration seconds){
-      pinger ! PoisonPill
-      ponger ! PoisonPill
-      system.terminate()
-    }
-  }
+  def ping() = pinger.!("ping")(ponger)
+  @JSExport
+  def pong() = ponger.!("pong")(pinger)
 }
 
-object Run extends App {
-
-}
+object Run extends App {}
