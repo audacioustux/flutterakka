@@ -26,6 +26,10 @@ class TodoWeb {
     switch (call.method) {
       case 'getPlatformVersion':
         return getPlatformVersion();
+      case 'ping':
+        return ping();
+      case 'pong':
+        return pong();
       default:
         throw PlatformException(
           code: 'Unimplemented',
@@ -35,7 +39,6 @@ class TodoWeb {
   }
 
   Future<String> getPlatformVersion() { 
-    ping();
     final version = html.window.navigator.userAgent;
     return Future.value(version);
   }

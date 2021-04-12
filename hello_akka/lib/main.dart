@@ -27,25 +27,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _platformVersion = "Unknown";
+  List<String> _msgs = <String>[];
 
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> _loadPlatformVersion() async {
-    String platformVersion;
-
-    try {
-      platformVersion = await Todo.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-    setState(() {
-      _platformVersion = platformVersion;
+    Todo.eventBus.on().listen((event) {
+        print(event.msg);
+        setState(() {
+            _msgs = [..._msgs, event.msg];
+        });
     });
   }
 
@@ -55,22 +46,29 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$_platformVersion',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      body: Column(children: [
+        Expanded(
+          child: ListView(
+            children: _msgs.map((v) => Text(v)).toList(),
+          )
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _loadPlatformVersion,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      ]),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            child: Text('Ping'),
+            onPressed: Todo.ping,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            child: Text('Pong'),
+            onPressed: Todo.pong,
+          )
+        ]
+      )
     );
   }
 }

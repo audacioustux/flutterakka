@@ -1,6 +1,6 @@
 name: todo
 description: A new flutter plugin project.
-version: 0.0.3
+version: 0.0.4
 author:
 homepage: https://github.com/audacioustux/AloPOCs
 
@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   import_js_library: ^1.0.1
+  event_bus: ^2.0.0
   flutter:
     sdk: flutter
   flutter_web_plugins:
